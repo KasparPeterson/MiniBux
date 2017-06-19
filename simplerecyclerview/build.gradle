@@ -1,18 +1,17 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion compile_sdk_version
     buildToolsVersion build_tools_version
 
     defaultConfig {
-        applicationId "com.kasparpeterson.minibux"
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -23,19 +22,6 @@ android {
 }
 
 dependencies {
-    testCompile "junit:junit:$junit_version"
-    testCompile "com.nhaarman:mockito-kotlin-kt1.1:$mockito_kotlin_version"
-
     compile "com.android.support:appcompat-v7:$support_version"
-    compile "com.android.support:cardview-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
-    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
-    compile "com.google.code.gson:gson:$gson_version"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile project(path: ':simplemvp')
-    compile project(path: ':simplerecyclerview')
-}
-
-repositories {
-    mavenCentral()
 }

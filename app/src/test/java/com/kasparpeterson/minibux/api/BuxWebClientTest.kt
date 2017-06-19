@@ -1,9 +1,11 @@
 package com.kasparpeterson.minibux.api
 
+import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
+import okhttp3.OkHttpClient
 import okhttp3.WebSocket
 import org.junit.Test
 
@@ -15,6 +17,7 @@ import java.math.BigDecimal
  */
 class BuxWebClientTest {
 
+    val gson = Gson()
     val securityId = "mock123"
     val currentPrice = "146.36"
 
@@ -24,7 +27,7 @@ class BuxWebClientTest {
     @Before
     fun setUp() {
         webSocket = mock<WebSocket>()
-        client = BuxWebClient()
+        client = BuxWebClient(gson)
     }
 
     @Test

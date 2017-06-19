@@ -8,4 +8,46 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BuxTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BuxTextView.Normal">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="BuxTextView.Big">
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BuxTextView.Big.Accent">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="BuxTextView.Huge">
+        <item name="android:textSize">@dimen/text_size_huge</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BuxCardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/margin_half</item>
+        <item name="cardElevation">@dimen/elevation</item>
+        <item name="cardCornerRadius">@dimen/corner_radius</item>
+    </style>
+
+    <style name="BuxCardView.Choose">
+        <item name="cardBackgroundColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="BuxCardView.Details">
+        <item name="cardBackgroundColor">@color/colorAccent</item>
+    </style>
+
 </resources>

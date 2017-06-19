@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MiniBux</string>
+
+    <string name="choose_product_title">Choose your product</string>
+
+    <string name="details_"></string>
 </resources>

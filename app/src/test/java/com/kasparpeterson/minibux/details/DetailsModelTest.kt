@@ -1,6 +1,7 @@
 package com.kasparpeterson.minibux.details
 
 import com.kasparpeterson.minibux.api.BuxWebClient
+import com.kasparpeterson.minibux.api.ProductService
 import com.kasparpeterson.minibux.api.TradingQuote
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -14,15 +15,19 @@ import java.math.BigDecimal
  */
 class DetailsModelTest {
 
+    val productId = "productId";
+
     lateinit var client: BuxWebClient
+    lateinit var productService: ProductService
     lateinit var presenter: DetailsMVP.PresenterModelOperations
     lateinit var model: DetailsModel
 
     @Before
     fun setUp() {
         client = mock<BuxWebClient>()
+        productService = mock<ProductService>()
         presenter = mock<DetailsMVP.PresenterModelOperations>()
-        model = DetailsModel(client)
+        model = DetailsModel(client, productService)
         model.presenter = presenter
     }
 
@@ -32,9 +37,14 @@ class DetailsModelTest {
     }
 
     @Test
+    fun fetchProduct() {
+        model.fetchProduct(productId)
+    }
+
+    @Test
     fun onUpdate() {
-        model.onUpdate(TradingQuote("mockId123", BigDecimal.ZERO))
-        verify(presenter).onTradingQuoteUpdate(TradingQuote("mockId123", BigDecimal.ZERO))
+        model.onUpdate(TradingQuote(productId, BigDecimal.ZERO))
+        verify(presenter).onTradingQuoteUpdate(TradingQuote(productId, BigDecimal.ZERO))
     }
 
 }

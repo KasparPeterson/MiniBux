@@ -1,23 +1,20 @@
-package com.kasparpeterson.minibux.details
+package com.kasparpeterson.minibux.chooseproduct
 
-import com.kasparpeterson.minibux.api.TradingQuote
-import com.kasparpeterson.minibux.chooseproduct.Product
 import com.kasparpeterson.simplemvp.MVPBaseModel
 import com.kasparpeterson.simplemvp.MVPBasePresenter
 import com.kasparpeterson.simplemvp.MVPBasePresenterModelOperations
 import com.kasparpeterson.simplemvp.MVPBaseViewOperations
-import java.math.BigDecimal
 
 /**
- * Created by kaspar on 13/06/2017.
+ * Created by kaspar on 15/06/2017.
  */
-interface DetailsMVP {
+interface ChooseProductMVP {
 
     // Presenter -> View
     interface ViewOperations : MVPBaseViewOperations {
-        fun showProduct(product: Product)
-        fun updatePrice(price: BigDecimal)
+        fun showProducts(products: List<Product>)
         fun showError()
+        fun startDetailsActivity(product: Product)
     }
 
     // View -> Presenter
@@ -27,19 +24,19 @@ interface DetailsMVP {
         companion object {
             val TAG = PresenterViewOperations::class.java.simpleName
         }
+
+        abstract fun onProductChosen(product: Product)
     }
 
     // Model -> Presenter
     interface PresenterModelOperations : MVPBasePresenterModelOperations {
-        fun onProductFetched(product: Product)
-        fun onProductFetchFailed()
-        fun onTradingQuoteUpdate(tradingQuote: TradingQuote)
+        fun onProductsLoaded(products: List<Product>)
+        fun onProductsLoadFailed()
     }
 
     // Presenter -> Model
     abstract class ModelOperations : MVPBaseModel<PresenterModelOperations>() {
-        abstract fun fetchProduct(securityId: String)
-        abstract fun startListening(securityId: String)
+        abstract fun loadProducts()
     }
 
 }
