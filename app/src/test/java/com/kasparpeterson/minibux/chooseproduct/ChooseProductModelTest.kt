@@ -5,7 +5,6 @@ import com.kasparpeterson.minibux.api.ProductService
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Before
 
 /**
@@ -55,11 +54,11 @@ class ChooseProductModelTest {
     }
 
     private fun provideProductServiceSuccess() {
-        provideProductServiceAnswer { callback -> callback.onResponse(products) }
+        provideProductServiceAnswer { it.onResponse(products) }
     }
 
     private fun provideProductServiceFailure() {
-        provideProductServiceAnswer { callback -> callback.onFailure() }
+        provideProductServiceAnswer { it.onFailure() }
     }
 
     private fun provideProductServiceAnswer(callback: (Listener<List<Product>>) -> Unit) {

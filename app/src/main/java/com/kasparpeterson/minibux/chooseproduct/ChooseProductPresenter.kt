@@ -14,14 +14,18 @@ class ChooseProductPresenter(view: ChooseProductMVP.ViewOperations,
     }
 
     override fun onProductChosen(product: Product) {
-        onView { view -> view.startDetailsActivity(product) }
+        onView { it.startDetailsActivity(product) }
+    }
+
+    override fun onRetry() {
+        model.loadProducts()
     }
 
     override fun onProductsLoaded(products: List<Product>) {
-        onView { view -> view.showProducts(products) }
+        onView { it.showProducts(products) }
     }
 
     override fun onProductsLoadFailed() {
-        onView { view -> view.showError() }
+        onView { it.showError() }
     }
 }

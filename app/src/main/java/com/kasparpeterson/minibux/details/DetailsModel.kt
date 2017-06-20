@@ -6,7 +6,7 @@ import com.kasparpeterson.minibux.chooseproduct.Product
 /**
  * Created by kaspar on 13/06/2017.
  */
-class DetailsModel(val webClient: BuxWebClient, val productService: ProductService)
+class DetailsModel(val webSocketClient: BuxWebSocketClient, val productService: ProductService)
     : DetailsMVP.ModelOperations(), TradingQuoteListener, Listener<Product> {
 
     private var securityId: String? = null
@@ -17,7 +17,7 @@ class DetailsModel(val webClient: BuxWebClient, val productService: ProductServi
 
     override fun startListening(securityId: String) {
         this.securityId = securityId
-        webClient.startListening(securityId, this)
+        webSocketClient.startListening(securityId, this)
     }
 
     override fun onUpdate(tradingQuote: TradingQuote) {
@@ -35,7 +35,7 @@ class DetailsModel(val webClient: BuxWebClient, val productService: ProductServi
     override fun onDestroy() {
         super.onDestroy()
         if (securityId != null) {
-            webClient.stopListening(securityId!!)
+            webSocketClient.stopListening(securityId!!)
         }
     }
 }

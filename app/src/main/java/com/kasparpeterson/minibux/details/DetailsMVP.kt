@@ -2,11 +2,11 @@ package com.kasparpeterson.minibux.details
 
 import com.kasparpeterson.minibux.api.TradingQuote
 import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.details.view.DetailsViewState
 import com.kasparpeterson.simplemvp.MVPBaseModel
 import com.kasparpeterson.simplemvp.MVPBasePresenter
 import com.kasparpeterson.simplemvp.MVPBasePresenterModelOperations
 import com.kasparpeterson.simplemvp.MVPBaseViewOperations
-import java.math.BigDecimal
 
 /**
  * Created by kaspar on 13/06/2017.
@@ -15,9 +15,7 @@ interface DetailsMVP {
 
     // Presenter -> View
     interface ViewOperations : MVPBaseViewOperations {
-        fun showProduct(product: Product)
-        fun updatePrice(price: BigDecimal)
-        fun showError()
+        fun showState(state: DetailsViewState)
     }
 
     // View -> Presenter
@@ -27,6 +25,8 @@ interface DetailsMVP {
         companion object {
             val TAG = PresenterViewOperations::class.java.simpleName
         }
+
+        abstract fun onRetry()
     }
 
     // Model -> Presenter

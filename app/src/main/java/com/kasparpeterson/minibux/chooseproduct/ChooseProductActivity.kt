@@ -16,9 +16,7 @@ import com.kasparpeterson.simplemvp.MVPBaseActivity
 class ChooseProductActivity: MVPBaseActivity<ChooseProductMVP.PresenterViewOperations>(),
         ChooseProductMVP.ViewOperations, ChooseProductListener {
 
-    companion object {
-        val TAG = ChooseProductActivity::class.java.simpleName
-    }
+    val TAG = ChooseProductActivity::class.java.simpleName
 
     private lateinit var view: ChooseProductView
 
@@ -41,12 +39,16 @@ class ChooseProductActivity: MVPBaseActivity<ChooseProductMVP.PresenterViewOpera
         presenter.onProductChosen(product)
     }
 
+    override fun onRetry() {
+        presenter.onRetry()
+    }
+
     override fun showProducts(products: List<Product>) {
         view.post { view.showProducts(products)}
     }
 
     override fun showError() {
-
+        view.post { view.showError() }
     }
 
     override fun startDetailsActivity(product: Product) {

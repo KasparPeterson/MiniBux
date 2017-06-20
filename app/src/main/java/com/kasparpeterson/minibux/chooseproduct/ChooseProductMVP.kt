@@ -26,6 +26,7 @@ interface ChooseProductMVP {
         }
 
         abstract fun onProductChosen(product: Product)
+        abstract fun onRetry()
     }
 
     // Model -> Presenter

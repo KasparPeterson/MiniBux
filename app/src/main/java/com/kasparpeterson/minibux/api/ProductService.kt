@@ -13,63 +13,75 @@ import java.lang.reflect.Type
  */
 open class ProductService(val gson: Gson, val client: OkHttpClient) {
 
-    val baseUrl = "https://api.beta.getbux.com/core/16/products"
-    val baseRequestBuilder: Request.Builder = Request.Builder()
+    private val baseUrl = "https://api.beta.getbux.com/core/16/products"
+    private val baseRequestBuilder: Request.Builder = Request.Builder()
             .addHeader("Authorization", API_TOKEN)
             .addHeader("Accept-Language", "en-EN,en;q=0.8")
-    val productsRequest: Request = baseRequestBuilder
+    private val productsRequest: Request = baseRequestBuilder
             .url(baseUrl)
             .build()
 
-    fun getProductRequest(productId: String): Request {
+    private fun getProductRequest(productId: String): Request {
         return baseRequestBuilder.url(baseUrl + "/" + productId).build()
     }
 
     var products: List<Product>? = null
 
+    open fun fetchProduct(productId: String, listener: Listener<Product>) {
+        val callback = HttpCallback(listener, Product::class.java, gson)
+        makeRequest(getProductRequest(productId), callback)
+    }
+
     open fun fetchProducts(listener: Listener<List<Product>>) {
         if (products != null) {
             listener.onResponse(products!!)
         } else {
-            makeRequest(productsRequest, listener, object : TypeToken<List<Product>>() {}.type)
+            fetchProductsRequest(listener)
         }
     }
 
-    open fun fetchProduct(productId: String, listener: Listener<Product>) {
-        makeRequest(getProductRequest(productId), listener, Product::class.java)
+    private fun fetchProductsRequest(listener: Listener<List<Product>>) {
+        val type = object : TypeToken<List<Product>>() {}.type
+        val callback = HttpCallback(listener, type, gson) {
+            products = it
+        }
+        makeRequest(productsRequest, callback)
     }
 
-    fun <T> makeRequest(request: Request, listener: Listener<T>, type: Type) {
-        val callback = HttpCallback(listener, type)
+    private fun <T> makeRequest(request: Request, callback: HttpCallback<T>) {
         client.newCall(request).enqueue(callback)
-    }
-
-    inner class HttpCallback<T>(val listener: Listener<T>, val type: Type) : Callback {
-
-        override fun onFailure(call: Call?, e: IOException?) {
-            onFailure()
-        }
-
-        override fun onResponse(call: Call?, response: Response?) {
-            if (response != null && response.isSuccessful) {
-                onSuccess(response.body())
-            } else {
-                onFailure()
-            }
-        }
-
-        private fun onSuccess(responseBody: ResponseBody) {
-            val response = gson.fromJson<T>(responseBody.string(), type)
-            listener.onResponse(response)
-        }
-
-        private fun onFailure() {
-            listener.onFailure()
-        }
     }
 }
 
-interface Listener<T> {
+open class HttpCallback<in T>(val listener: Listener<T>,
+                              val type: Type,
+                              val gson: Gson,
+                              val successInterceptor: ((T) -> Unit)? = null) : Callback {
+
+    override fun onFailure(call: Call?, e: IOException?) {
+        onFailure()
+    }
+
+    override fun onResponse(call: Call?, response: Response?) {
+        if (response != null && response.isSuccessful) {
+            onSuccess(response.body())
+        } else {
+            onFailure()
+        }
+    }
+
+    private fun onSuccess(responseBody: ResponseBody) {
+        val response = gson.fromJson<T>(responseBody.string(), type)
+        successInterceptor?.invoke(response)
+        listener.onResponse(response)
+    }
+
+    private fun onFailure() {
+        listener.onFailure()
+    }
+}
+
+interface Listener<in T> {
     fun onResponse(response: T)
     fun onFailure()
 }

@@ -2,6 +2,9 @@
     <string name="app_name">MiniBux</string>
 
     <string name="choose_product_title">Choose your product</string>
+    <string name="choose_product_error">Could not get products. Please check the connection!</string>
+    <string name="choose_product_retry">Retry</string>
 
-    <string name="details_"></string>
+    <string name="details_retry">Retry</string>
+    <string name="details_no_connection">Check your connection!</string>
 </resources>

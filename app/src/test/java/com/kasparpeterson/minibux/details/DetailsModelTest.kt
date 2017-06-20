@@ -1,6 +1,6 @@
 package com.kasparpeterson.minibux.details
 
-import com.kasparpeterson.minibux.api.BuxWebClient
+import com.kasparpeterson.minibux.api.BuxWebSocketClient
 import com.kasparpeterson.minibux.api.ProductService
 import com.kasparpeterson.minibux.api.TradingQuote
 import com.nhaarman.mockito_kotlin.mock
@@ -15,19 +15,19 @@ import java.math.BigDecimal
  */
 class DetailsModelTest {
 
-    val productId = "productId";
+    val productId = "productId"
 
-    lateinit var client: BuxWebClient
+    lateinit var socketClient: BuxWebSocketClient
     lateinit var productService: ProductService
     lateinit var presenter: DetailsMVP.PresenterModelOperations
     lateinit var model: DetailsModel
 
     @Before
     fun setUp() {
-        client = mock<BuxWebClient>()
+        socketClient = mock<BuxWebSocketClient>()
         productService = mock<ProductService>()
         presenter = mock<DetailsMVP.PresenterModelOperations>()
-        model = DetailsModel(client, productService)
+        model = DetailsModel(socketClient, productService)
         model.presenter = presenter
     }
 

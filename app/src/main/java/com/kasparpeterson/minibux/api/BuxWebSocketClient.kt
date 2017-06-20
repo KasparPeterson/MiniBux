@@ -11,7 +11,7 @@ import java.math.BigDecimal
 /**
  * Created by kaspar on 13/06/2017.
  */
-open class BuxWebClient(val gson: Gson): WebSocketListener() {
+open class BuxWebSocketClient(val gson: Gson, val client: OkHttpClient): WebSocketListener() {
 
     private val TRADING_QUOTE = "trading.quote"
     private val request = Request.Builder()
@@ -19,27 +19,38 @@ open class BuxWebClient(val gson: Gson): WebSocketListener() {
             .addHeader("Authorization", API_TOKEN)
             .addHeader("Accept-Language", "en-EN,en;q=0.8")
             .build()
-    private val webSocket: WebSocket
+    private var webSocket: WebSocket? = null
     private val listeners = HashMap<String, TradingQuoteListener>()
 
-    init {
-        val client = OkHttpClient()
+    private fun initialiseConnection() {
         webSocket = client.newWebSocket(request, this)
-        client.dispatcher().executorService().shutdown()
     }
 
     fun startListening(securityId: String, listener: TradingQuoteListener) {
-        println("startListening, securityId: {$securityId}")
+        if (webSocket == null) {
+            initialiseConnection()
+        }
+
         listeners.put(securityId, listener)
-        webSocket.send(SUBSCRIBE_MESSAGE)
+        val message = getSubscription(securityId)
+        webSocket!!.send(message)
     }
 
     fun stopListening(securityId: String) {
         listeners.remove(securityId)
+        webSocket?.send(getUnSubscription(securityId))
+    }
+
+    override fun onClosed(webSocket: WebSocket?, code: Int, reason: String?) {
+        this.webSocket = null
+    }
+
+    override fun onFailure(webSocket: WebSocket?, t: Throwable?, response: okhttp3.Response?) {
+        t?.printStackTrace()
+        this.webSocket = null
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
-        println("Receiving : " + text)
         try {
             tryParsing(text)
         } catch (e: Exception) {
@@ -56,15 +67,21 @@ open class BuxWebClient(val gson: Gson): WebSocketListener() {
 
     private fun notifyTradingQuoteListener(tradingQuoteBody: JsonObject) {
         val tradingQuote = gson.fromJson(tradingQuoteBody, TradingQuote::class.java)
-        listeners[tradingQuote.securityId]?.onUpdate(tradingQuote)
+        val listener = listeners[tradingQuote.securityId]
+        listener?.onUpdate(tradingQuote)
     }
 
-    private val SUBSCRIBE_MESSAGE = "{\n" +
-            "        \"subscribeTo\": [\n" +
-            "           \"trading.product.sb26513\"\n" +
-            "        ],\n" +
-            "        \"unsubscribeFrom\": [\n" +
-            "] }"
+    private fun getSubscription(securityId: String): String {
+        return gson.toJson(SubscriptionMessage(
+                listOf("trading.product." + securityId),
+                listOf<String>()))
+    }
+
+    private fun getUnSubscription(securityId: String): String {
+        return gson.toJson(SubscriptionMessage(
+                listOf<String>(),
+                listOf("trading.product." + securityId)))
+    }
 }
 
 interface TradingQuoteListener {
@@ -80,3 +97,7 @@ data class Response(
 data class TradingQuote(
         val securityId: String,
         val currentPrice: BigDecimal)
+
+data class SubscriptionMessage(
+        val subscribeTo: List<String>,
+        val unsubscribeFrom: List<String>)

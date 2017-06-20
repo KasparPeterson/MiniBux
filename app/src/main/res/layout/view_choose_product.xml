@@ -2,11 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/choose_product_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/choose_product_error_container"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_big"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView style="@style/BuxTextView.Error"
+            android:text="@string/choose_product_error"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/choose_product_retry_button"
+            android:text="@string/choose_product_retry"
+            android:layout_marginTop="@dimen/margin_big"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 </LinearLayout>

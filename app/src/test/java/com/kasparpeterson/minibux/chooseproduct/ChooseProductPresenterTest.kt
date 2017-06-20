@@ -1,6 +1,7 @@
 package com.kasparpeterson.minibux.chooseproduct
 
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
 import org.junit.Test
@@ -36,6 +37,12 @@ class ChooseProductPresenterTest {
     fun onProductChosen() {
         presenter.onProductChosen(product)
         verify(view).startDetailsActivity(product)
+    }
+
+    @Test
+    fun onRetry() {
+        presenter.onRetry()
+        verify(model, times(2)).loadProducts()
     }
 
     @Test

@@ -15,8 +15,4 @@ data class Product(
 data class Price(
         val currency: String = "",
         val decimals: Int = 0,
-        val amount: BigDecimal = BigDecimal.ZERO)
-
-enum class Category {
-    STOCKS
-}
+        var amount: BigDecimal = BigDecimal.ZERO)

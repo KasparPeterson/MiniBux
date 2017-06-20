@@ -5,15 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import com.kasparpeterson.minibux.MiniBux
 import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.details.view.DetailsListener
 import com.kasparpeterson.minibux.details.view.DetailsView
+import com.kasparpeterson.minibux.details.view.DetailsViewState
 import com.kasparpeterson.simplemvp.MVPBaseActivity
-import java.math.BigDecimal
 
 /**
  * Created by kaspar on 13/06/2017.
  */
 class DetailsActivity: MVPBaseActivity<DetailsMVP.PresenterViewOperations>(),
-        DetailsMVP.ViewOperations {
+        DetailsMVP.ViewOperations, DetailsListener {
 
     companion object {
         private val ARG_PRODUCT = "arg_product"
@@ -34,25 +35,21 @@ class DetailsActivity: MVPBaseActivity<DetailsMVP.PresenterViewOperations>(),
 
     override fun initialisePresenter(): DetailsMVP.PresenterViewOperations {
         val product = MiniBux.gson.fromJson(intent.getStringExtra(ARG_PRODUCT), Product::class.java)
-        val model = DetailsModel(MiniBux.instance.buxWebClient, MiniBux.instance.productService)
+        val model = DetailsModel(MiniBux.instance.buxWebSocketClient, MiniBux.instance.productService)
         return DetailsPresenter(product, this, model)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        view = DetailsView(this)
+        view = DetailsView(this, this)
         setContentView(view)
     }
 
-    override fun showProduct(product: Product) {
-        view.post { view.showProduct(product) }
+    override fun onRetry() {
+        presenter.onRetry()
     }
 
-    override fun updatePrice(price: BigDecimal) {
-        view.updatePrice(price)
-    }
-
-    override fun showError() {
-
+    override fun showState(state: DetailsViewState) {
+        view.post { view.showState(state) }
     }
 }

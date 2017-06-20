@@ -3,6 +3,7 @@ package com.kasparpeterson.minibux.details
 import com.kasparpeterson.minibux.api.TradingQuote
 import com.kasparpeterson.minibux.chooseproduct.Price
 import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.details.view.DetailsViewState
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
@@ -18,7 +19,6 @@ import java.math.BigDecimal
 class DetailsPresenterTest {
 
     val securityId = "mockId"
-    val product = Product("name", securityId, Price(), "category")
 
     lateinit var view: DetailsMVP.ViewOperations
     lateinit var model: DetailsMVP.ModelOperations
@@ -28,34 +28,47 @@ class DetailsPresenterTest {
     fun setUp() {
         view = mock<DetailsMVP.ViewOperations>()
         model = mock<DetailsMVP.ModelOperations>()
-        presenter = DetailsPresenter(product, view, model)
+        presenter = DetailsPresenter(getProduct(), view, model)
         presenter.onStart()
         presenter.onResume()
     }
 
     @Test
     fun initialState() {
-        verify(view).showProduct(product)
+        verify(view).showState(DetailsViewState(getProduct()))
         verify(model).fetchProduct(securityId)
         verify(model).startListening(securityId)
     }
 
     @Test
+    fun onRetry() {
+        presenter.onRetry()
+        verify(model, times(2)).fetchProduct(securityId)
+    }
+
+    @Test
     fun onProductFetched() {
-        presenter.onProductFetched(product)
-        verify(view, times(2)).showProduct(product)
+        presenter.onProductFetched(getProduct())
+        verify(view, times(2)).showState(DetailsViewState(getProduct()))
     }
 
     @Test
     fun onProductFetchFailed() {
         presenter.onProductFetchFailed()
-        verify(view).showError()
+        verify(view).showState(DetailsViewState(getProduct(), isProductError = true))
     }
 
     @Test
     fun onTradingQuoteUpdate() {
-        presenter.onTradingQuoteUpdate(TradingQuote(securityId, BigDecimal.ZERO))
-        verify(view).updatePrice(BigDecimal.ZERO)
+        presenter.onTradingQuoteUpdate(TradingQuote(securityId, BigDecimal.TEN))
+        verify(view, times(2)).showState(DetailsViewState(getProduct(BigDecimal.TEN)))
     }
 
+    private fun getProduct(): Product {
+        return getProduct(BigDecimal.ONE)
+    }
+
+    private fun getProduct(price: BigDecimal): Product {
+        return Product("name", securityId, Price("EUR", 2, price), "category")
+    }
 }

@@ -3,7 +3,7 @@ package com.kasparpeterson.minibux
 import android.app.Application
 import com.google.gson.Gson
 
-import com.kasparpeterson.minibux.api.BuxWebClient
+import com.kasparpeterson.minibux.api.BuxWebSocketClient
 import com.kasparpeterson.minibux.api.ProductService
 import okhttp3.OkHttpClient
 
@@ -19,14 +19,13 @@ class MiniBux : Application() {
             private set
     }
 
-    lateinit var okHttpClient: OkHttpClient
-    lateinit var buxWebClient: BuxWebClient
+    lateinit var buxWebSocketClient: BuxWebSocketClient
     lateinit var productService: ProductService
 
     override fun onCreate() {
         super.onCreate()
         instance = this
-        buxWebClient = BuxWebClient(gson)
+        buxWebSocketClient = BuxWebSocketClient(gson, OkHttpClient())
         productService = ProductService(gson, OkHttpClient())
     }
 }

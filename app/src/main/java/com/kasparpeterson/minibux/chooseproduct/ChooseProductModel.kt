@@ -13,8 +13,8 @@ class ChooseProductModel(val productService: ProductService): ChooseProductMVP.M
         productService.fetchProducts(this)
     }
 
-    override fun onResponse(products: List<Product>) {
-        presenter.onProductsLoaded(products)
+    override fun onResponse(response: List<Product>) {
+        presenter.onProductsLoaded(response)
     }
 
     override fun onFailure() {
