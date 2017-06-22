@@ -1,11 +1,10 @@
 package com.kasparpeterson.minibux.chooseproduct.view
 
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.kasparpeterson.minibux.R
-import com.kasparpeterson.minibux.chooseproduct.Price
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Price
+import com.kasparpeterson.minibux.api.models.Product
 import com.kasparpeterson.simplerecyclerview.SimpleAdapterItem
 import com.kasparpeterson.simplerecyclerview.SimpleRecyclerViewAdapter
 
@@ -30,9 +29,12 @@ class ContentItem(val product: Product)
 class ContentViewHolder(val view: View)
     : SimpleRecyclerViewAdapter.SimpleViewHolder<ContentItem, ProductListener>(view) {
 
-    val productTextView = view.findViewById(R.id.list_item_product_text_view) as TextView
-    val priceTextView = view.findViewById(R.id.list_item_product_price_text_view) as TextView
-    val categoryTextView = view.findViewById(R.id.list_item_product_category_text_view) as TextView
+    val productTextView = view
+            .findViewById(R.id.list_item_product_text_view) as TextView
+    val priceTextView = view
+            .findViewById(R.id.list_item_product_price_value_text_view) as TextView
+    val categoryTextView = view
+            .findViewById(R.id.list_item_product_category_value_text_view) as TextView
 
     override fun onBind(item: ContentItem, listener: ProductListener) {
         showProduct(item.product)

@@ -1,7 +1,7 @@
 package com.kasparpeterson.minibux.details
 
-import com.kasparpeterson.minibux.api.TradingQuote
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Product
+import com.kasparpeterson.minibux.api.models.TradingQuote
 import com.kasparpeterson.minibux.details.view.DetailsViewState
 
 /**
@@ -33,7 +33,7 @@ class DetailsPresenter(var product: Product,
     }
 
     override fun onProductFetchFailed() {
-        showView(getNewState(isProductError = true))
+        showView(getNewState(isProductError = product.description.isEmpty()))
     }
 
     override fun onTradingQuoteUpdate(tradingQuote: TradingQuote) {

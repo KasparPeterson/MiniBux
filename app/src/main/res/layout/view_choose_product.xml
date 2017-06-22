@@ -20,6 +20,8 @@
         android:layout_height="match_parent">
 
         <TextView style="@style/BuxTextView.Error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/choose_product_error"
             android:gravity="center"/>
 

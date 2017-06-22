@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import android.widget.FrameLayout
 import com.kasparpeterson.minibux.R
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Product
 import kotlinx.android.synthetic.main.view_choose_product.view.*
 
 /**

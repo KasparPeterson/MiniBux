@@ -1,10 +1,11 @@
 package com.kasparpeterson.minibux.details
 
-import com.kasparpeterson.minibux.api.TradingQuote
-import com.kasparpeterson.minibux.chooseproduct.Price
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Price
+import com.kasparpeterson.minibux.api.models.Product
+import com.kasparpeterson.minibux.api.models.TradingQuote
 import com.kasparpeterson.minibux.details.view.DetailsViewState
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
@@ -66,6 +67,13 @@ class DetailsPresenterTest {
     }
 
     @Test
+    fun onProductFetchFailed_productErrorNotShownWhenDescriptionExists() {
+        presenter.onProductFetched(getProduct(description = "Mock description"))
+        presenter.onProductFetchFailed()
+        verify(view, never()).showState(DetailsViewState(getProduct(), isProductError = true))
+    }
+
+    @Test
     fun onTradingQuoteUpdate() {
         presenter.onTradingQuoteUpdate(TradingQuote(securityId, BigDecimal.TEN))
         verify(view, times(2)).showState(DetailsViewState(getProduct(BigDecimal.TEN)))
@@ -84,11 +92,7 @@ class DetailsPresenterTest {
         verify(view).showState(DetailsViewState(getProduct(), isPriceError = true))
     }
 
-    private fun getProduct(): Product {
-        return getProduct(BigDecimal.ONE)
-    }
-
-    private fun getProduct(price: BigDecimal): Product {
-        return Product("name", securityId, Price("EUR", 2, price), "category")
+    private fun getProduct(price: BigDecimal = BigDecimal.ONE, description: String = ""): Product {
+        return Product("name", securityId, Price("EUR", 2, price), "category", description)
     }
 }

@@ -1,5 +1,7 @@
 package com.kasparpeterson.minibux.chooseproduct
 
+import com.kasparpeterson.minibux.api.models.Price
+import com.kasparpeterson.minibux.api.models.Product
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify

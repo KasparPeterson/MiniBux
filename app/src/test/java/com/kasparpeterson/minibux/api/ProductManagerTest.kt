@@ -1,6 +1,8 @@
 package com.kasparpeterson.minibux.api
 
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Product
+import com.kasparpeterson.minibux.api.rest.ProductManager
+import com.kasparpeterson.minibux.api.rest.ProductService
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
 import org.junit.Test

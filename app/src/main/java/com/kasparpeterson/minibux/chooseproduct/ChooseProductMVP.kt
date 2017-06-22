@@ -1,5 +1,6 @@
 package com.kasparpeterson.minibux.chooseproduct
 
+import com.kasparpeterson.minibux.api.models.Product
 import com.kasparpeterson.simplemvp.MVPBaseModel
 import com.kasparpeterson.simplemvp.MVPBasePresenter
 import com.kasparpeterson.simplemvp.MVPBasePresenterModelOperations

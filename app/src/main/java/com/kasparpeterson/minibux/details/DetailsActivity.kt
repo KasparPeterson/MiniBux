@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.kasparpeterson.minibux.MiniBux
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Product
 import com.kasparpeterson.minibux.details.view.DetailsListener
 import com.kasparpeterson.minibux.details.view.DetailsView
 import com.kasparpeterson.minibux.details.view.DetailsViewState

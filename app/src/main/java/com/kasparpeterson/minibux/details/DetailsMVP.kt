@@ -1,7 +1,7 @@
 package com.kasparpeterson.minibux.details
 
-import com.kasparpeterson.minibux.api.TradingQuote
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Product
+import com.kasparpeterson.minibux.api.models.TradingQuote
 import com.kasparpeterson.minibux.details.view.DetailsViewState
 import com.kasparpeterson.simplemvp.MVPBaseModel
 import com.kasparpeterson.simplemvp.MVPBasePresenter

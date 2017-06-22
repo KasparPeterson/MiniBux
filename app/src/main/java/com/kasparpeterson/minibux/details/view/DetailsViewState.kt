@@ -1,19 +1,18 @@
 package com.kasparpeterson.minibux.details.view
 
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Product
 
 /**
  * Created by kaspar on 22/06/2017.
  */
-
 data class DetailsViewState(
         val product: Product,
         val isProductError: Boolean = false,
         val isPriceError: Boolean = false) {
 
     fun getNewState(product: Product? = null,
-                     isProductError: Boolean? = null,
-                     isPriceError: Boolean? = null): DetailsViewState {
+                    isProductError: Boolean? = null,
+                    isPriceError: Boolean? = null): DetailsViewState {
         return DetailsViewState(getNewProduct(product),
                 getNewIsProductError(isProductError),
                 getNewIsPriceError(isPriceError))

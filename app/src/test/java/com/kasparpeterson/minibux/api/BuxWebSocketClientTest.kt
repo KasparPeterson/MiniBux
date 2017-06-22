@@ -1,6 +1,9 @@
 package com.kasparpeterson.minibux.api
 
 import com.google.gson.Gson
+import com.kasparpeterson.minibux.api.models.TradingQuote
+import com.kasparpeterson.minibux.api.websocket.BuxWebSocketClient
+import com.kasparpeterson.minibux.api.websocket.TradingQuoteListener
 import com.nhaarman.mockito_kotlin.*
 import okhttp3.OkHttpClient
 import okhttp3.WebSocket

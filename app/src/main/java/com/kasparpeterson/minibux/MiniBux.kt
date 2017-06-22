@@ -3,9 +3,9 @@ package com.kasparpeterson.minibux
 import android.app.Application
 import com.google.gson.Gson
 
-import com.kasparpeterson.minibux.api.BuxWebSocketClient
-import com.kasparpeterson.minibux.api.ProductManager
-import com.kasparpeterson.minibux.api.ProductService
+import com.kasparpeterson.minibux.api.websocket.BuxWebSocketClient
+import com.kasparpeterson.minibux.api.rest.ProductManager
+import com.kasparpeterson.minibux.api.rest.ProductService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

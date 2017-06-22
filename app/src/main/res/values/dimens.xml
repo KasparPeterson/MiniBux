@@ -13,4 +13,6 @@
     <dimen name="corner_radius">6dp</dimen>
     <dimen name="elevation">4dp</dimen>
 
+    <dimen name="text_view_side_margin">8dp</dimen>
+
 </resources>

@@ -1,8 +1,8 @@
 package com.kasparpeterson.minibux.details
 
-import com.kasparpeterson.minibux.api.BuxWebSocketClient
-import com.kasparpeterson.minibux.api.ProductManager
-import com.kasparpeterson.minibux.api.TradingQuote
+import com.kasparpeterson.minibux.api.websocket.BuxWebSocketClient
+import com.kasparpeterson.minibux.api.rest.ProductManager
+import com.kasparpeterson.minibux.api.models.TradingQuote
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify

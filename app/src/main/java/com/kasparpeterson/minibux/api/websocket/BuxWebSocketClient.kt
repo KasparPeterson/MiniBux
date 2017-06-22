@@ -1,12 +1,15 @@
-package com.kasparpeterson.minibux.api
+package com.kasparpeterson.minibux.api.websocket
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.kasparpeterson.minibux.api.API_TOKEN
+import com.kasparpeterson.minibux.api.models.Response
+import com.kasparpeterson.minibux.api.models.SubscriptionMessage
+import com.kasparpeterson.minibux.api.models.TradingQuote
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
-import java.math.BigDecimal
 
 /**
  * Created by kaspar on 13/06/2017.
@@ -91,21 +94,3 @@ open class BuxWebSocketClient(val gson: Gson, val client: OkHttpClient): WebSock
     }
 }
 
-interface TradingQuoteListener {
-    fun onTradingQuoteUpdate(tradingQuote: TradingQuote)
-    fun onTradingQuoteUnAvailable()
-}
-
-data class Response(
-        val t: String,
-        val id: String,
-        val v: Int,
-        val body: JsonObject)
-
-data class TradingQuote(
-        val securityId: String,
-        val currentPrice: BigDecimal)
-
-data class SubscriptionMessage(
-        val subscribeTo: List<String>,
-        val unsubscribeFrom: List<String>)

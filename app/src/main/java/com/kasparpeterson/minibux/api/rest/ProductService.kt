@@ -1,6 +1,6 @@
-package com.kasparpeterson.minibux.api
+package com.kasparpeterson.minibux.api.rest
 
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Product
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header

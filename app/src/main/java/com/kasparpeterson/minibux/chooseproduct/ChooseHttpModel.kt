@@ -1,13 +1,14 @@
 package com.kasparpeterson.minibux.chooseproduct
 
-import com.kasparpeterson.minibux.api.Listener
-import com.kasparpeterson.minibux.api.ProductManager
+import com.kasparpeterson.minibux.api.rest.ProductManager
+import com.kasparpeterson.minibux.api.models.Product
+import com.kasparpeterson.minibux.api.rest.HttpListener
 
 /**
  * Created by kaspar on 15/06/2017.
  */
-class ChooseProductModel(val productManager: ProductManager): ChooseProductMVP.ModelOperations(),
-        Listener<List<Product>> {
+class ChooseHttpModel(val productManager: ProductManager)
+    : ChooseProductMVP.ModelOperations(), HttpListener<List<Product>> {
 
     override fun loadProducts() {
         productManager.fetchProducts(this)

@@ -1,7 +1,9 @@
 package com.kasparpeterson.minibux.api
 
-import com.kasparpeterson.minibux.chooseproduct.Price
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Price
+import com.kasparpeterson.minibux.api.models.Product
+import com.kasparpeterson.minibux.api.rest.HttpCallback
+import com.kasparpeterson.minibux.api.rest.HttpListener
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
@@ -13,7 +15,7 @@ import retrofit2.Response
  */
 class HttpCallbackTest {
 
-    lateinit var listener: Listener<Product>
+    lateinit var listener: HttpListener<Product>
     lateinit var callback: HttpCallback<Product>
 
     @Before

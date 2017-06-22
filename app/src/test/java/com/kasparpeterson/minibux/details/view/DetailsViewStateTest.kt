@@ -1,7 +1,7 @@
 package com.kasparpeterson.minibux.details.view
 
-import com.kasparpeterson.minibux.chooseproduct.Price
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Price
+import com.kasparpeterson.minibux.api.models.Product
 import org.junit.Test
 
 import org.junit.Assert.*

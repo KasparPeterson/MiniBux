@@ -1,5 +1,7 @@
 package com.kasparpeterson.minibux.chooseproduct
 
+import com.kasparpeterson.minibux.api.models.Product
+
 /**
  * Created by kaspar on 15/06/2017.
  */

@@ -5,17 +5,13 @@ import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
 import com.kasparpeterson.minibux.R
-import com.kasparpeterson.minibux.chooseproduct.Price
-import com.kasparpeterson.minibux.chooseproduct.Product
+import com.kasparpeterson.minibux.api.models.Price
+import com.kasparpeterson.minibux.api.models.Product
 import kotlinx.android.synthetic.main.view_details.view.*
 
 /**
  * Created by kaspar on 17/06/2017.
  */
-interface DetailsListener {
-    fun onRetry()
-}
-
 @SuppressLint("ViewConstructor")
 class DetailsView(context: Context, val listener: DetailsListener): FrameLayout(context) {
 
@@ -39,7 +35,7 @@ class DetailsView(context: Context, val listener: DetailsListener): FrameLayout(
     }
 
     private fun updatePrice(price: Price) {
-        val formattedPrice = price.amount.toString()
+        val formattedPrice = price.getFormattedPresentation()
         details_product_price_text_view.text = formattedPrice
     }
 

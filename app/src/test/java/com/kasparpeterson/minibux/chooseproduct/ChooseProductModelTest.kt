@@ -1,7 +1,9 @@
 package com.kasparpeterson.minibux.chooseproduct
 
-import com.kasparpeterson.minibux.api.Listener
-import com.kasparpeterson.minibux.api.ProductManager
+import com.kasparpeterson.minibux.api.rest.ProductManager
+import com.kasparpeterson.minibux.api.models.Price
+import com.kasparpeterson.minibux.api.models.Product
+import com.kasparpeterson.minibux.api.rest.HttpListener
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Test
 
@@ -15,7 +17,7 @@ class ChooseProductModelTest {
     lateinit var products: List<Product>
     lateinit var productManager: ProductManager
     lateinit var presenter: ChooseProductMVP.PresenterModelOperations
-    lateinit var model: ChooseProductModel
+    lateinit var model: ChooseHttpModel
 
     @Before
     fun setUp() {
@@ -35,7 +37,7 @@ class ChooseProductModelTest {
     private fun createMocks() {
         productManager = mock()
         presenter = mock()
-        model = ChooseProductModel(productManager)
+        model = ChooseHttpModel(productManager)
         model.presenter = presenter
     }
 
@@ -62,9 +64,9 @@ class ChooseProductModelTest {
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun provideProductServiceAnswer(callback: (Listener<List<Product>>) -> Unit) {
+    private fun provideProductServiceAnswer(callback: (HttpListener<List<Product>>) -> Unit) {
         doAnswer { invocation ->
-            callback.invoke(invocation.arguments[0] as Listener<List<Product>>)
+            callback.invoke(invocation.arguments[0] as HttpListener<List<Product>>)
             null
         }.`when`(productManager).fetchProducts(any())
     }
