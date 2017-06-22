@@ -13,28 +13,47 @@ class DetailsPresenter(var product: Product,
     : DetailsMVP.PresenterViewOperations(view, model),
         DetailsMVP.PresenterModelOperations {
 
+    private var currentState = DetailsViewState(product)
+
     override fun onStart() {
         super.onStart()
-        onView { it.showState(DetailsViewState(product))}
+        onView { it.showState(currentState)}
         model.fetchProduct(product.securityId)
         model.startListening(product.securityId)
     }
 
     override fun onRetry() {
         model.fetchProduct(product.securityId)
+        model.startListening(product.securityId)
     }
 
     override fun onProductFetched(product: Product) {
         this.product = product
-        onView { it.showState(DetailsViewState(product)) }
+        showView(getNewState(isProductError = false))
     }
 
     override fun onProductFetchFailed() {
-        onView { it.showState(DetailsViewState(product, isProductError = true)) }
+        showView(getNewState(isProductError = true))
     }
 
     override fun onTradingQuoteUpdate(tradingQuote: TradingQuote) {
         product.currentPrice.amount = tradingQuote.currentPrice
-        onView { it.showState(DetailsViewState(product)) }
+        showView(getNewState(isPriceError = false))
+    }
+
+    override fun onTradingQuoteUnAvailable() {
+        showView(getNewState(isPriceError = true))
+    }
+
+    private fun getNewState(isProductError: Boolean? = null,
+                            isPriceError: Boolean? = null): DetailsViewState {
+        return currentState.getNewState(product,
+                isProductError = isProductError,
+                isPriceError = isPriceError)
+    }
+
+    private fun showView(state: DetailsViewState) {
+        currentState = state
+        onView { it.showState(state) }
     }
 }

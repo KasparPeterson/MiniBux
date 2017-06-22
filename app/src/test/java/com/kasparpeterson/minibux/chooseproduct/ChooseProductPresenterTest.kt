@@ -21,8 +21,8 @@ class ChooseProductPresenterTest {
 
     @Before
     fun setUp() {
-        view = mock<ChooseProductMVP.ViewOperations>()
-        model = mock<ChooseProductMVP.ModelOperations>()
+        view = mock()
+        model = mock()
         presenter = ChooseProductPresenter(view, model)
         presenter.onStart()
         presenter.onResume()

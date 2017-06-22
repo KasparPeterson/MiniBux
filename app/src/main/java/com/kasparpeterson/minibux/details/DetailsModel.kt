@@ -6,13 +6,13 @@ import com.kasparpeterson.minibux.chooseproduct.Product
 /**
  * Created by kaspar on 13/06/2017.
  */
-class DetailsModel(val webSocketClient: BuxWebSocketClient, val productService: ProductService)
+class DetailsModel(val webSocketClient: BuxWebSocketClient, val productManager: ProductManager)
     : DetailsMVP.ModelOperations(), TradingQuoteListener, Listener<Product> {
 
     private var securityId: String? = null
 
     override fun fetchProduct(securityId: String) {
-        productService.fetchProduct(securityId, this)
+        productManager.fetchProduct(securityId, this)
     }
 
     override fun startListening(securityId: String) {
@@ -20,8 +20,12 @@ class DetailsModel(val webSocketClient: BuxWebSocketClient, val productService: 
         webSocketClient.startListening(securityId, this)
     }
 
-    override fun onUpdate(tradingQuote: TradingQuote) {
+    override fun onTradingQuoteUpdate(tradingQuote: TradingQuote) {
         presenter.onTradingQuoteUpdate(tradingQuote)
+    }
+
+    override fun onTradingQuoteUnAvailable() {
+        presenter.onTradingQuoteUnAvailable()
     }
 
     override fun onResponse(response: Product) {

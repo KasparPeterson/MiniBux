@@ -26,7 +26,7 @@ public abstract class MVPBaseModel<P extends MVPBasePresenterModelOperations> {
         // For overriding
     }
 
-    protected void onDestroy() {
+    public void onDestroy() {
         // For overriding
     }
 

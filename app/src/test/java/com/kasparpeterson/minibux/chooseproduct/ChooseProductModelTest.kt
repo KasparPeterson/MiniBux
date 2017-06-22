@@ -1,7 +1,7 @@
 package com.kasparpeterson.minibux.chooseproduct
 
 import com.kasparpeterson.minibux.api.Listener
-import com.kasparpeterson.minibux.api.ProductService
+import com.kasparpeterson.minibux.api.ProductManager
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Test
 
@@ -13,7 +13,7 @@ import org.junit.Before
 class ChooseProductModelTest {
 
     lateinit var products: List<Product>
-    lateinit var productService: ProductService
+    lateinit var productManager: ProductManager
     lateinit var presenter: ChooseProductMVP.PresenterModelOperations
     lateinit var model: ChooseProductModel
 
@@ -33,9 +33,9 @@ class ChooseProductModelTest {
     }
 
     private fun createMocks() {
-        productService = mock<ProductService>()
-        presenter = mock<ChooseProductMVP.PresenterModelOperations>()
-        model = ChooseProductModel(productService)
+        productManager = mock()
+        presenter = mock()
+        model = ChooseProductModel(productManager)
         model.presenter = presenter
     }
 
@@ -61,10 +61,11 @@ class ChooseProductModelTest {
         provideProductServiceAnswer { it.onFailure() }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun provideProductServiceAnswer(callback: (Listener<List<Product>>) -> Unit) {
         doAnswer { invocation ->
             callback.invoke(invocation.arguments[0] as Listener<List<Product>>)
             null
-        }.`when`(productService).fetchProducts(any())
+        }.`when`(productManager).fetchProducts(any())
     }
 }

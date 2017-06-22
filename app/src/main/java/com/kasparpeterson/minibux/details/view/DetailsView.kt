@@ -8,7 +8,6 @@ import com.kasparpeterson.minibux.R
 import com.kasparpeterson.minibux.chooseproduct.Price
 import com.kasparpeterson.minibux.chooseproduct.Product
 import kotlinx.android.synthetic.main.view_details.view.*
-import java.math.BigDecimal
 
 /**
  * Created by kaspar on 17/06/2017.
@@ -17,17 +16,13 @@ interface DetailsListener {
     fun onRetry()
 }
 
-data class DetailsViewState(
-        val product: Product,
-        val isProductError: Boolean = false,
-        val isPriceError: Boolean = false)
-
 @SuppressLint("ViewConstructor")
 class DetailsView(context: Context, val listener: DetailsListener): FrameLayout(context) {
 
     init {
         inflate(context, R.layout.view_details, this)
         details_retry_button.setOnClickListener { listener.onRetry() }
+        details_price_retry_button.setOnClickListener { listener.onRetry() }
     }
 
     fun showState(state: DetailsViewState) {
@@ -59,8 +54,10 @@ class DetailsView(context: Context, val listener: DetailsListener): FrameLayout(
     private fun handlePriceError(isError: Boolean) {
         if (isError) {
             details_product_price_error_text_view.visibility = VISIBLE
+            details_price_retry_button.visibility = VISIBLE
         } else {
             details_product_price_error_text_view.visibility = GONE
+            details_price_retry_button.visibility = GONE
         }
     }
 }

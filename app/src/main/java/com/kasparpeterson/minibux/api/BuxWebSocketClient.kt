@@ -26,7 +26,7 @@ open class BuxWebSocketClient(val gson: Gson, val client: OkHttpClient): WebSock
         webSocket = client.newWebSocket(request, this)
     }
 
-    fun startListening(securityId: String, listener: TradingQuoteListener) {
+    open fun startListening(securityId: String, listener: TradingQuoteListener) {
         if (webSocket == null) {
             initialiseConnection()
         }
@@ -36,18 +36,20 @@ open class BuxWebSocketClient(val gson: Gson, val client: OkHttpClient): WebSock
         webSocket!!.send(message)
     }
 
-    fun stopListening(securityId: String) {
+    open fun stopListening(securityId: String) {
         listeners.remove(securityId)
         webSocket?.send(getUnSubscription(securityId))
     }
 
     override fun onClosed(webSocket: WebSocket?, code: Int, reason: String?) {
         this.webSocket = null
+        informListenersAboutFailure()
     }
 
     override fun onFailure(webSocket: WebSocket?, t: Throwable?, response: okhttp3.Response?) {
         t?.printStackTrace()
         this.webSocket = null
+        informListenersAboutFailure()
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
@@ -68,7 +70,7 @@ open class BuxWebSocketClient(val gson: Gson, val client: OkHttpClient): WebSock
     private fun notifyTradingQuoteListener(tradingQuoteBody: JsonObject) {
         val tradingQuote = gson.fromJson(tradingQuoteBody, TradingQuote::class.java)
         val listener = listeners[tradingQuote.securityId]
-        listener?.onUpdate(tradingQuote)
+        listener?.onTradingQuoteUpdate(tradingQuote)
     }
 
     private fun getSubscription(securityId: String): String {
@@ -82,10 +84,16 @@ open class BuxWebSocketClient(val gson: Gson, val client: OkHttpClient): WebSock
                 listOf<String>(),
                 listOf("trading.product." + securityId)))
     }
+
+    private fun informListenersAboutFailure() {
+        for (listener in listeners.values) listener.onTradingQuoteUnAvailable()
+        listeners.clear()
+    }
 }
 
 interface TradingQuoteListener {
-    fun onUpdate(tradingQuote: TradingQuote)
+    fun onTradingQuoteUpdate(tradingQuote: TradingQuote)
+    fun onTradingQuoteUnAvailable()
 }
 
 data class Response(

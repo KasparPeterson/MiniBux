@@ -34,6 +34,7 @@ interface DetailsMVP {
         fun onProductFetched(product: Product)
         fun onProductFetchFailed()
         fun onTradingQuoteUpdate(tradingQuote: TradingQuote)
+        fun onTradingQuoteUnAvailable()
     }
 
     // Presenter -> Model

@@ -29,8 +29,8 @@ class BuxWebSocketClientTest {
     }
 
     private fun setUpOkHttpClient() {
-        webSocket = mock<WebSocket>()
-        okHttpClient = mock<OkHttpClient> {
+        webSocket = mock()
+        okHttpClient = mock {
             on { newWebSocket(any(), any()) } doReturn webSocket
         }
     }
@@ -38,8 +38,15 @@ class BuxWebSocketClientTest {
     @Test
     fun startListening() {
         val message = "{\"subscribeTo\":[\"trading.product.$securityId\"],\"unsubscribeFrom\":[]}"
-        socketClient.startListening(securityId, mock<TradingQuoteListener>())
+        startListening(securityId)
         verify(webSocket).send(message)
+    }
+
+    @Test
+    fun startListening_twice_reusesPreviousWebSocket() {
+        socketClient.startListening("id1", mock())
+        socketClient.startListening("id2", mock())
+        verify(okHttpClient).newWebSocket(any(), any())
     }
 
     @Test
@@ -52,11 +59,43 @@ class BuxWebSocketClientTest {
     }
 
     @Test
+    fun onClosed_informsListeners() {
+        val listener = mock<TradingQuoteListener>()
+        socketClient.startListening(securityId, listener)
+        socketClient.onClosed(null, 0, null)
+        verify(listener).onTradingQuoteUnAvailable()
+    }
+
+    @Test
+    fun onClosed_createsNewSocket() {
+        startListening(securityId)
+        socketClient.onClosed(null, 0, null)
+        startListening(securityId)
+        verify(okHttpClient, times(2)).newWebSocket(any(), any())
+    }
+
+    @Test
+    fun onFailure_informsListeners() {
+        val listener = mock<TradingQuoteListener>()
+        socketClient.startListening(securityId, listener)
+        socketClient.onFailure(null, null, null)
+        verify(listener).onTradingQuoteUnAvailable()
+    }
+
+    @Test
+    fun onFailure_createsNewSocket() {
+        startListening(securityId)
+        socketClient.onFailure(null, null, null)
+        startListening(securityId)
+        verify(okHttpClient, times(2)).newWebSocket(any(), any())
+    }
+
+    @Test
     fun onMessage_emptyString() {
         val listener = mock<TradingQuoteListener>()
         socketClient.startListening(securityId, listener)
         socketClient.onMessage(webSocket, "")
-        verify(listener, never()).onUpdate(any())
+        verify(listener, never()).onTradingQuoteUpdate(any())
     }
 
     @Test
@@ -64,7 +103,7 @@ class BuxWebSocketClientTest {
         val listener = mock<TradingQuoteListener>()
         socketClient.startListening(securityId, listener)
         socketClient.onMessage(webSocket, "some gibberish 123")
-        verify(listener, never()).onUpdate(any())
+        verify(listener, never()).onTradingQuoteUpdate(any())
     }
 
     @Test
@@ -72,7 +111,7 @@ class BuxWebSocketClientTest {
         val listener = mock<TradingQuoteListener>()
         socketClient.startListening(securityId, listener)
         socketClient.onMessage(webSocket, getMockText("wrongSecurityId"))
-        verify(listener, never()).onUpdate(any())
+        verify(listener, never()).onTradingQuoteUpdate(any())
     }
 
     @Test
@@ -80,7 +119,11 @@ class BuxWebSocketClientTest {
         val listener = mock<TradingQuoteListener>()
         socketClient.startListening(securityId, listener)
         socketClient.onMessage(webSocket, getMockText(securityId))
-        verify(listener).onUpdate(TradingQuote(securityId, BigDecimal(currentPrice)))
+        verify(listener).onTradingQuoteUpdate(TradingQuote(securityId, BigDecimal(currentPrice)))
+    }
+
+    private fun startListening(securityId: String) {
+        socketClient.startListening(securityId, mock())
     }
 
     fun getMockText(securityId: String): String {

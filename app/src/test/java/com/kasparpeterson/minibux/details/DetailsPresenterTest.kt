@@ -10,7 +10,6 @@ import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
 import org.junit.Test
 
-import org.junit.Assert.*
 import java.math.BigDecimal
 
 /**
@@ -26,8 +25,8 @@ class DetailsPresenterTest {
 
     @Before
     fun setUp() {
-        view = mock<DetailsMVP.ViewOperations>()
-        model = mock<DetailsMVP.ModelOperations>()
+        view = mock()
+        model = mock()
         presenter = DetailsPresenter(getProduct(), view, model)
         presenter.onStart()
         presenter.onResume()
@@ -44,10 +43,18 @@ class DetailsPresenterTest {
     fun onRetry() {
         presenter.onRetry()
         verify(model, times(2)).fetchProduct(securityId)
+        verify(model, times(2)).startListening(securityId)
     }
 
     @Test
     fun onProductFetched() {
+        presenter.onProductFetched(getProduct())
+        verify(view, times(2)).showState(DetailsViewState(getProduct()))
+    }
+
+    @Test
+    fun onProductFetched_removesProductError() {
+        presenter.onProductFetchFailed()
         presenter.onProductFetched(getProduct())
         verify(view, times(2)).showState(DetailsViewState(getProduct()))
     }
@@ -62,6 +69,19 @@ class DetailsPresenterTest {
     fun onTradingQuoteUpdate() {
         presenter.onTradingQuoteUpdate(TradingQuote(securityId, BigDecimal.TEN))
         verify(view, times(2)).showState(DetailsViewState(getProduct(BigDecimal.TEN)))
+    }
+
+    @Test
+    fun onTradingQuoteUpdate_removesPriceError() {
+        presenter.onTradingQuoteUnAvailable()
+        presenter.onTradingQuoteUpdate(TradingQuote(securityId, BigDecimal.TEN))
+        verify(view, times(2)).showState(DetailsViewState(getProduct(BigDecimal.TEN)))
+    }
+
+    @Test
+    fun onTradingQuoteUnAvailable() {
+        presenter.onTradingQuoteUnAvailable()
+        verify(view).showState(DetailsViewState(getProduct(), isPriceError = true))
     }
 
     private fun getProduct(): Product {

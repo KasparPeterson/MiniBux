@@ -70,6 +70,13 @@
                 android:layout_marginTop="@dimen/margin"
                 android:drawableEnd="@drawable/ic_error_black_24dp"/>
 
+            <Button
+                android:id="@+id/details_price_retry_button"
+                android:text="@string/details_retry"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

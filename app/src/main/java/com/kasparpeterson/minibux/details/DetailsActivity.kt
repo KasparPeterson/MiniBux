@@ -35,7 +35,7 @@ class DetailsActivity: MVPBaseActivity<DetailsMVP.PresenterViewOperations>(),
 
     override fun initialisePresenter(): DetailsMVP.PresenterViewOperations {
         val product = MiniBux.gson.fromJson(intent.getStringExtra(ARG_PRODUCT), Product::class.java)
-        val model = DetailsModel(MiniBux.instance.buxWebSocketClient, MiniBux.instance.productService)
+        val model = DetailsModel(MiniBux.instance.buxWebSocketClient, MiniBux.instance.productManager)
         return DetailsPresenter(product, this, model)
     }
 

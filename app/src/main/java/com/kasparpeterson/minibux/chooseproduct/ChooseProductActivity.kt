@@ -26,7 +26,7 @@ class ChooseProductActivity: MVPBaseActivity<ChooseProductMVP.PresenterViewOpera
 
     override fun initialisePresenter(): ChooseProductMVP.PresenterViewOperations {
         return ChooseProductPresenter(this,
-                ChooseProductModel(MiniBux.instance.productService))
+                ChooseProductModel(MiniBux.instance.productManager))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
