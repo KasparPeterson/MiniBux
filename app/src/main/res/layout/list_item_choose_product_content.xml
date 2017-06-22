@@ -32,20 +32,10 @@
             tools:text="€ 15.00"/>
 
         <TextView style="@style/BuxTextView.Normal.White"
-            android:id="@+id/list_item_product_category_text_view"
-            android:text="@string/choose_product_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/list_item_product_price_text_view"/>
-
-        <TextView style="@style/BuxTextView.Normal.White"
             android:id="@+id/list_item_product_category_value_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_view_side_margin"
-            android:layout_marginRight="@dimen/text_view_side_margin"
             android:layout_below="@id/list_item_product_price_text_view"
-            android:layout_toEndOf="@id/list_item_product_category_text_view"
             tools:text="Stocks"/>
 
     </RelativeLayout>

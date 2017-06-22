@@ -1,6 +1,8 @@
 package com.kasparpeterson.minibux.api.models
 
 import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
@@ -11,8 +13,27 @@ data class Product(
         val displayName: String,
         val securityId: String,
         val currentPrice: Price,
+        val closingPrice: Price,
         val category: String,
-        val description: String = "")
+        val description: String? = null) {
+
+    fun getChangePresentation(): String {
+        return formatPercentage(getChangePercentage()) + "%"
+    }
+
+    private fun getChangePercentage(): BigDecimal {
+        val hundred = BigDecimal("100")
+        val percentage = currentPrice.amount
+                .multiply(hundred)
+                .divide(closingPrice.amount, RoundingMode.HALF_UP)
+        return percentage.subtract(hundred)
+    }
+
+    private fun formatPercentage(percentage: BigDecimal): String {
+        val numberFormat = DecimalFormat("#,##0.00")
+        return numberFormat.format(percentage)
+    }
+}
 
 data class Price(
         val currency: String = "",
@@ -24,5 +45,4 @@ data class Price(
         val currencyFormat = Currency.getInstance(currency)
         return currencyFormat.symbol + " " + numberFormat.format(amount)
     }
-
 }

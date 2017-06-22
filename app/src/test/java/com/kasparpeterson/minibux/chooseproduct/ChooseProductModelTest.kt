@@ -6,7 +6,6 @@ import com.kasparpeterson.minibux.api.models.Product
 import com.kasparpeterson.minibux.api.rest.HttpListener
 import com.nhaarman.mockito_kotlin.*
 import org.junit.Test
-
 import org.junit.Before
 
 /**
@@ -30,6 +29,7 @@ class ChooseProductModelTest {
                 displayName = "Product1",
                 securityId = "ID",
                 currentPrice = Price(),
+                closingPrice = Price(),
                 category = "Category")
         products = listOf(product1)
     }

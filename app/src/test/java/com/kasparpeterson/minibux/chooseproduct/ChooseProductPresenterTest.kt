@@ -15,7 +15,7 @@ import org.junit.Assert.*
  */
 class ChooseProductPresenterTest {
 
-    val product = Product("MockName", "mockid", Price(), "category")
+    val product = Product("MockName", "mockid", Price(), Price(), "category")
     val products = listOf(product)
     lateinit var view: ChooseProductMVP.ViewOperations
     lateinit var model: ChooseProductMVP.ModelOperations
@@ -58,5 +58,4 @@ class ChooseProductPresenterTest {
         presenter.onProductsLoadFailed()
         verify(view).showError()
     }
-
 }

@@ -7,7 +7,6 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
-
 import org.junit.Before
 import java.math.BigDecimal
 
@@ -67,5 +66,4 @@ class DetailsModelTest {
         model.onDestroy()
         verify(socketClient).stopListening(productId)
     }
-
 }

@@ -33,7 +33,11 @@ class DetailsPresenter(var product: Product,
     }
 
     override fun onProductFetchFailed() {
-        showView(getNewState(isProductError = product.description.isEmpty()))
+        showView(getNewState(isProductError = isDescriptionEmpty()))
+    }
+
+    private fun isDescriptionEmpty(): Boolean {
+        return product.description == null || product.description!!.isEmpty()
     }
 
     override fun onTradingQuoteUpdate(tradingQuote: TradingQuote) {

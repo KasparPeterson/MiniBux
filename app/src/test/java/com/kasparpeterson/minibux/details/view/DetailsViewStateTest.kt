@@ -3,7 +3,6 @@ package com.kasparpeterson.minibux.details.view
 import com.kasparpeterson.minibux.api.models.Price
 import com.kasparpeterson.minibux.api.models.Product
 import org.junit.Test
-
 import org.junit.Assert.*
 
 /**
@@ -11,7 +10,7 @@ import org.junit.Assert.*
  */
 class DetailsViewStateTest {
 
-    val product = Product("mock1", "mock2", Price(), "mock3")
+    val product = Product("mock1", "mock2", Price(), Price(), "mock3")
 
     @Test
     fun fromOldState_productNull() {
@@ -22,7 +21,7 @@ class DetailsViewStateTest {
 
     @Test
     fun fromOldState_productNotNull() {
-        val newProduct = Product("mock11", "mock12", Price(), "mock13")
+        val newProduct = Product("mock11", "mock12", Price(), Price(), "mock13")
         val oldState = DetailsViewState(product)
         val newState = oldState.getNewState(newProduct)
         assertEquals(DetailsViewState(newProduct), newState)
@@ -55,5 +54,4 @@ class DetailsViewStateTest {
         val newState = oldState.getNewState(isPriceError = true)
         assertEquals(DetailsViewState(product, isPriceError = true), newState)
     }
-
 }

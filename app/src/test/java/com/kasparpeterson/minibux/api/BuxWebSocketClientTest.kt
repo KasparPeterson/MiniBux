@@ -54,7 +54,6 @@ class BuxWebSocketClientTest {
 
     @Test
     fun stopListening() {
-        // startListening has to be called before stopListening can be called
         startListening()
         val message = "{\"subscribeTo\":[],\"unsubscribeFrom\":[\"trading.product.$securityId\"]}"
         socketClient.stopListening(securityId)

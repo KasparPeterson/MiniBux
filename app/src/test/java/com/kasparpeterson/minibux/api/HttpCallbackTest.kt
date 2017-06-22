@@ -26,7 +26,7 @@ class HttpCallbackTest {
 
     @Test
     fun onResponse() {
-        val product = Product("", "", Price(), "")
+        val product = Product("", "", Price(), Price(), "")
         val response = Response.success(product)
         callback.onResponse(null, response)
         verify(listener).onResponse(product)

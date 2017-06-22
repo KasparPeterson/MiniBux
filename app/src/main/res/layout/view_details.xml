@@ -20,11 +20,11 @@
                 android:padding="@dimen/margin">
 
                 <TextView style="@style/BuxTextView.Error"
-                          android:text="@string/details_no_connection"
-                          android:gravity="center"
-                          android:layout_marginTop="@dimen/margin"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"/>
+                    android:text="@string/details_no_connection"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <Button
                     android:id="@+id/details_retry_button"
@@ -46,17 +46,17 @@
                 android:padding="@dimen/margin">
 
                 <TextView style="@style/BuxTextView.Big.Accent"
-                          android:id="@+id/details_product_name_text_view"
-                          android:textAllCaps="true"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          tools:text="Adidas"/>
+                    android:id="@+id/details_product_name_text_view"
+                    android:textAllCaps="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Adidas"/>
 
                 <TextView style="@style/BuxTextView"
-                          android:id="@+id/details_product_description_text_view"
-                          android:layout_marginTop="@dimen/margin"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"/>
+                    android:id="@+id/details_product_description_text_view"
+                    android:layout_marginTop="@dimen/margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -76,27 +76,47 @@
                     android:layout_height="wrap_content">
 
                     <TextView style="@style/BuxTextView.Normal"
-                              android:text="@string/details_price"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"/>
+                        android:text="@string/details_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                     <TextView style="@style/BuxTextView.Huge"
-                              android:id="@+id/details_product_price_text_view"
-                              tools:text="0.00"
-                              android:layout_marginLeft="@dimen/text_view_side_margin"
-                              android:layout_marginRight="@dimen/text_view_side_margin"
-                              android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"/>
+                        android:id="@+id/details_product_price_text_view"
+                        tools:text="0.00"
+                        android:layout_marginLeft="@dimen/text_view_side_margin"
+                        android:layout_marginRight="@dimen/text_view_side_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView style="@style/BuxTextView.Normal"
+                        android:text="@string/details_change"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView style="@style/BuxTextView.Huge"
+                        android:id="@+id/details_product_change_text_view"
+                        tools:text="0.00 %"
+                        android:layout_marginLeft="@dimen/text_view_side_margin"
+                        android:layout_marginRight="@dimen/text_view_side_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
                 <TextView style="@style/BuxTextView.Error"
-                          android:id="@+id/details_product_price_error_text_view"
-                          android:text="@string/details_no_connection"
-                          android:layout_marginTop="@dimen/margin"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:drawableEnd="@drawable/ic_error_black_24dp"/>
+                    android:id="@+id/details_product_price_error_text_view"
+                    android:text="@string/details_no_connection"
+                    android:layout_marginTop="@dimen/margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_error_black_24dp"/>
 
                 <Button
                     android:id="@+id/details_price_retry_button"

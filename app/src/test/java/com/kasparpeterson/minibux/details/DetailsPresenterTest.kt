@@ -74,6 +74,13 @@ class DetailsPresenterTest {
     }
 
     @Test
+    fun onProductFetchFailed_productErrorShownWhenDescriptionIsNull() {
+        presenter.onProductFetched(getProduct(description = null))
+        presenter.onProductFetchFailed()
+        verify(view).showState(DetailsViewState(getProduct(), isProductError = true))
+    }
+
+    @Test
     fun onTradingQuoteUpdate() {
         presenter.onTradingQuoteUpdate(TradingQuote(securityId, BigDecimal.TEN))
         verify(view, times(2)).showState(DetailsViewState(getProduct(BigDecimal.TEN)))
@@ -92,7 +99,7 @@ class DetailsPresenterTest {
         verify(view).showState(DetailsViewState(getProduct(), isPriceError = true))
     }
 
-    private fun getProduct(price: BigDecimal = BigDecimal.ONE, description: String = ""): Product {
-        return Product("name", securityId, Price("EUR", 2, price), "category", description)
+    private fun getProduct(price: BigDecimal = BigDecimal.ONE, description: String? = null): Product {
+        return Product("name", securityId, Price("EUR", 2, price), Price(), "category", description)
     }
 }

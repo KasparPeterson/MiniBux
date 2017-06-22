@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
 import com.kasparpeterson.minibux.R
-import com.kasparpeterson.minibux.api.models.Price
 import com.kasparpeterson.minibux.api.models.Product
 import kotlinx.android.synthetic.main.view_details.view.*
 
@@ -23,7 +22,7 @@ class DetailsView(context: Context, val listener: DetailsListener): FrameLayout(
 
     fun showState(state: DetailsViewState) {
         showProduct(state.product)
-        updatePrice(state.product.currentPrice)
+        updatePrice(state.product)
         handleProductError(state.isProductError)
         handlePriceError(state.isPriceError)
     }
@@ -31,12 +30,12 @@ class DetailsView(context: Context, val listener: DetailsListener): FrameLayout(
     private fun showProduct(product: Product) {
         details_product_name_text_view.text = product.displayName
         details_product_description_text_view.text = product.description
-
     }
 
-    private fun updatePrice(price: Price) {
-        val formattedPrice = price.getFormattedPresentation()
+    private fun updatePrice(product: Product) {
+        val formattedPrice = product.currentPrice.getFormattedPresentation()
         details_product_price_text_view.text = formattedPrice
+        details_product_change_text_view.text = product.getChangePresentation()
     }
 
     private fun handleProductError(isError: Boolean) {

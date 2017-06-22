@@ -29,12 +29,9 @@ class ContentItem(val product: Product)
 class ContentViewHolder(val view: View)
     : SimpleRecyclerViewAdapter.SimpleViewHolder<ContentItem, ProductListener>(view) {
 
-    val productTextView = view
-            .findViewById(R.id.list_item_product_text_view) as TextView
-    val priceTextView = view
-            .findViewById(R.id.list_item_product_price_value_text_view) as TextView
-    val categoryTextView = view
-            .findViewById(R.id.list_item_product_category_value_text_view) as TextView
+    val productTextView = view.findViewById(R.id.list_item_product_text_view) as TextView
+    val priceTextView = view.findViewById(R.id.list_item_product_price_value_text_view) as TextView
+    val categoryTextView = view.findViewById(R.id.list_item_product_category_value_text_view) as TextView
 
     override fun onBind(item: ContentItem, listener: ProductListener) {
         showProduct(item.product)

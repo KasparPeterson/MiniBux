@@ -16,9 +16,10 @@ import okhttp3.WebSocketListener
  */
 open class BuxWebSocketClient(val gson: Gson, val client: OkHttpClient): WebSocketListener() {
 
+    private val BASE_URL = "https://rtf.beta.getbux.com/subscriptions/me"
     private val TRADING_QUOTE = "trading.quote"
     private val request = Request.Builder()
-            .url("https://rtf.beta.getbux.com/subscriptions/me")
+            .url(BASE_URL)
             .addHeader("Authorization", API_TOKEN)
             .addHeader("Accept-Language", "en-EN,en;q=0.8")
             .build()

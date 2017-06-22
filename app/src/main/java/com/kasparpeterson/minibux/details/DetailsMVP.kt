@@ -42,5 +42,4 @@ interface DetailsMVP {
         abstract fun fetchProduct(securityId: String)
         abstract fun startListening(securityId: String)
     }
-
 }
